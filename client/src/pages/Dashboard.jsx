@@ -1,109 +1,55 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
-import GrievanceForm from '../components/GrievanceForm';
-import GrievanceCard from '../components/GrievanceCard';
+import GovHeader from '../components/GovHeader';
+import GovSidebar from '../components/GovSidebar';
+import GovFooter from '../components/GovFooter';
+import CitizenDashboard from './dashboards/CitizenDashboard';
+import OfficialDashboard from './dashboards/OfficialDashboard';
+import AdminDashboard from './dashboards/AdminDashboard';
 
 export default function Dashboard() {
-    const { user, logout } = useAuth();
-    const [grievances, setGrievances] = useState([]);
-    const [filter, setFilter] = useState('All');
+    const { user } = useAuth();
+    const [currentView, setCurrentView] = useState('dashboard');
 
-    const fetchGrievances = async () => {
-        try {
-            const res = await axios.get('/grievances');
-            setGrievances(res.data);
-        } catch (error) {
-            console.error('Error fetching grievances', error);
+    if (!user) return <div style={{ padding: '20px' }}>Loading Profile...</div>;
+
+    const renderContent = () => {
+        switch (user.role) {
+            case 'Citizen':
+                return <CitizenDashboard user={user} view={currentView} />;
+            case 'Department Officer':
+            case 'Department Head':
+                return <OfficialDashboard user={user} view={currentView} />;
+            case 'Admin':
+            case 'SuperAdmin':
+                return <AdminDashboard user={user} view={currentView} />;
+            default:
+                return <CitizenDashboard user={user} view={currentView} />;
         }
     };
-
-    useEffect(() => {
-        fetchGrievances();
-    }, []);
-
-    const handleUpdateStatus = async (id, status) => {
-        try {
-            await axios.patch(`/grievances/${id}/status`, { status });
-            fetchGrievances();
-        } catch (error) {
-            alert('Failed to update status');
-        }
-    };
-
-    const isOfficial = ['Department Officer', 'Department Head', 'Admin'].includes(user?.role);
 
     return (
-        <div className="container">
-            {/* Header */}
-            <header className="flex-between" style={{ marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid var(--glass-border)' }}>
-                <div>
-                    <h2 style={{ margin: 0 }}>Grievance Portal</h2>
-                    <p style={{ margin: 0, color: 'var(--text-muted)' }}>Welcome, {user?.name} ({user?.role})</p>
-                </div>
-                <button className="btn-primary" style={{ backgroundColor: 'var(--danger)' }} onClick={logout}>Logoout</button>
-            </header>
+        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: '#fff' }}>
+            <GovHeader />
 
-            {/* Main Content */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '2rem' }}>
+            <div className="container" style={{ display: 'flex', flex: 1, padding: '0', gap: '0', border: '1px solid #ddd', marginTop: '1rem', marginBottom: '1rem' }}>
+                {/* Sidebar */}
+                <GovSidebar role={user.role} currentView={currentView} onViewChange={setCurrentView} />
 
-                {/* Left: List */}
-                <div>
-                    <div className="flex-between" style={{ marginBottom: '1.5rem' }}>
-                        <h3>Recent Activities</h3>
-                        <select className="input-field" style={{ width: 'auto', marginBottom: 0 }} value={filter} onChange={e => setFilter(e.target.value)}>
-                            <option>All</option>
-                            <option>Pending</option>
-                            <option>In Progress</option>
-                            <option>Resolved</option>
-                        </select>
-                    </div>
+                {/* Main Content Area */}
+                <main style={{ flex: 1, padding: '20px', backgroundColor: '#fff' }}>
+                    <h2 style={{
+                        margin: '0 0 20px 0', paddingBottom: '10px', borderBottom: '1px solid #eee',
+                        textTransform: 'uppercase', fontSize: '1.2rem', color: 'var(--gov-primary)'
+                    }}>
+                        {currentView.replace('_', ' ')}
+                    </h2>
 
-                    <div style={{ display: 'grid', gap: '1.5rem' }}>
-                        {grievances
-                            .filter(g => filter === 'All' || g.status === filter)
-                            .map(g => (
-                                <GrievanceCard
-                                    key={g.id}
-                                    grievance={g}
-                                    isOfficial={isOfficial}
-                                    onUpdateStatus={handleUpdateStatus}
-                                />
-                            ))}
-                        {grievances.length === 0 && <p style={{ color: 'var(--text-muted)' }}>No grievances found.</p>}
-                    </div>
-                </div>
-
-                {/* Right: Actions/Stats */}
-                <div>
-                    {user?.role === 'Citizen' && (
-                        <GrievanceForm onSuccess={fetchGrievances} />
-                    )}
-
-                    <div className="glass-panel" style={{ padding: '1.5rem' }}>
-                        <h4>Quick Stats</h4>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                            <div className="flex-between">
-                                <span>Total Submitted</span>
-                                <strong>{grievances.length}</strong>
-                            </div>
-                            <div className="flex-between">
-                                <span>Resolved</span>
-                                <strong style={{ color: 'var(--success)' }}>
-                                    {grievances.filter(g => g.status === 'Resolved').length}
-                                </strong>
-                            </div>
-                            <div className="flex-between">
-                                <span>Pending</span>
-                                <strong style={{ color: 'var(--warning)' }}>
-                                    {grievances.filter(g => g.status === 'Pending').length}
-                                </strong>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                    {renderContent()}
+                </main>
             </div>
+
+            <GovFooter />
         </div>
     );
 }

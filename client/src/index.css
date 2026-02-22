@@ -1,80 +1,57 @@
 :root {
-  --primary: #4f46e5;
-  --primary-hover: #4338ca;
-  --bg-dark: #0f172a;
-  --glass-bg: rgba(30, 41, 59, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --success: #10b981;
-  --warning: #f59e0b;
-  --danger: #ef4444;
+  /* Government Palette (NIC Standards) */
+  --gov-primary: #0A2A66;
+  /* Dark Navy Blue */
+  --gov-secondary: #1F4E79;
+  /* Gov Blue */
+  --gov-success: #1E7D32;
+  /* Dark Green */
+  --gov-warning: #E65100;
+  /* Dark Orange/Red for alerts */
+  --gov-danger: #B00020;
+  /* Dark Red */
+
+  --gov-bg: #FFFFFF;
+  --gov-bg-alt: #F2F2F2;
+  --gov-border: #D1D1D1;
+  --gov-text: #333333;
+  --gov-text-light: #666666;
+
+  /* Map old variables to new to prevent immediate breakage, but override values */
+  --primary: var(--gov-primary);
+  --secondary: var(--gov-secondary);
+  --success: var(--gov-success);
+  --warning: var(--gov-warning);
+  --danger: var(--gov-danger);
+  --text-main: var(--gov-text);
+  --text-muted: var(--gov-text-light);
 }
 
 body {
   margin: 0;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background-color: var(--bg-dark);
-  color: var(--text-main);
-  background-image: 
-    radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.15) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(16, 185, 129, 0.15) 0px, transparent 50%);
-  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  /* Standard safe fonts */
+  background-color: var(--gov-bg-alt);
+  color: var(--gov-text);
+  line-height: 1.5;
+  font-size: 14px;
 }
 
-/* Glassmorphism Utilities */
-.glass-panel {
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-  border-radius: 1rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+/* Reset Links */
+a {
+  color: var(--gov-secondary);
+  text-decoration: none;
 }
 
-.btn-primary {
-  background-color: var(--primary);
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s;
+a:hover {
+  text-decoration: underline;
 }
 
-.btn-primary:hover {
-  background-color: var(--primary-hover);
-  transform: translateY(-1px);
-}
-
-.input-field {
-  width: 100%;
-  padding: 0.75rem;
-  background: rgba(15, 23, 42, 0.5);
-  border: 1px solid var(--glass-border);
-  border-radius: 0.5rem;
-  color: white;
-  margin-bottom: 1rem;
-  outline: none;
-}
-
-.input-field:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
-}
-
-/* Layouts */
+/* Layout Utilities */
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
-}
-
-.grid-cols-2 {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
+  padding: 1rem;
 }
 
 .flex-between {
@@ -82,3 +59,117 @@ body {
   justify-content: space-between;
   align-items: center;
 }
+
+/* Government Components */
+
+/* 1. Header */
+.gov-header {
+  background-color: var(--gov-primary);
+  color: white;
+  padding: 1rem 0;
+  border-bottom: 4px solid #FF9933;
+  /* Saffron strip for Indian context (optional but common) or just Gold */
+}
+
+/* 2. Panels / Containers (Replaces Glassmorphism) */
+.glass-panel,
+.gov-card {
+  background: white;
+  border: 1px solid var(--gov-border);
+  border-radius: 0;
+  /* No rounded corners */
+  box-shadow: none;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* 3. Buttons */
+.btn-primary {
+  background-color: var(--gov-secondary);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 2px;
+  /* Slight round or 0 */
+  border: 1px solid #0f3e69;
+  font-weight: bold;
+  font-size: 13px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #153b5e;
+  text-decoration: none;
+}
+
+/* 4. Form Inputs */
+.input-field,
+select,
+textarea {
+  width: 100%;
+  padding: 0.5rem;
+  background: white;
+  border: 1px solid #999;
+  border-radius: 2px;
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 14px;
+}
+
+.input-field:focus {
+  border-color: var(--gov-primary);
+  outline: 1px solid var(--gov-primary);
+  box-shadow: none;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+  color: #333;
+}
+
+/* 5. Tables (New) */
+.gov-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background: white;
+  border: 1px solid var(--gov-border);
+}
+
+.gov-table th {
+  background-color: var(--gov-secondary);
+  color: white;
+  text-align: left;
+  padding: 0.75rem;
+  border: 1px solid #153b5e;
+  font-weight: bold;
+}
+
+.gov-table td {
+  padding: 0.75rem;
+  border: 1px solid var(--gov-border);
+  color: #333;
+}
+
+.gov-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.gov-table tr:hover {
+  background-color: #e6f0fa;
+}
+
+/* Status Badges - Text only or minimal box */
+.badge {
+  display: inline-block;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-weight: bold;
+  border: 1px solid #ccc;
+  background: #eee;
+  color: #333;
+}
+
+/* Utility overrides for badges if needed */

@@ -7,12 +7,26 @@ const ActionLog = sequelize.define('ActionLog', {
         primaryKey: true,
         autoIncrement: true
     },
+    grievanceId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    performedBy: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
     action: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING, // e.g., "STATUS_CHANGE", "COMMENT", "ASSIGNMENT"
         allowNull: false
     },
     details: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT // Human readable description
+    },
+    prevStatus: {
+        type: DataTypes.STRING
+    },
+    newStatus: {
+        type: DataTypes.STRING
     }
 });
 

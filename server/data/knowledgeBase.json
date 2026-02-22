@@ -1,0 +1,60 @@
+[
+    {
+        "id": "faq_001",
+        "question": "How do I file a grievance?",
+        "answer": "You can file a grievance by clicking the 'New Grievance' button on your dashboard. Fill in the details, attach photos if available, and submit.",
+        "keywords": [
+            "file",
+            "submit",
+            "new",
+            "create",
+            "how to"
+        ]
+    },
+    {
+        "id": "faq_002",
+        "question": "what is the timeline for resolution?",
+        "answer": "Resolution timelines (SLAs) vary by category. Emergency issues are addressed within 12-24 hours, while general infrastructure issues may take 48-72 hours.",
+        "keywords": [
+            "time",
+            "deadline",
+            "sla",
+            "when",
+            "long"
+        ]
+    },
+    {
+        "id": "faq_003",
+        "question": "Can I track my complaint?",
+        "answer": "Yes! Use the 'Track Grievance' feature or ask me for the status by providing the Grievance ID (e.g., Status of 123).",
+        "keywords": [
+            "track",
+            "status",
+            "check",
+            "progress"
+        ]
+    },
+    {
+        "id": "policy_001",
+        "question": "Is my data safe?",
+        "answer": "Absolutely. We use enterprise-grade encryption and secure servers. Your personal details are protected under the Digital Data Protection Act.",
+        "keywords": [
+            "safe",
+            "privacy",
+            "data",
+            "secure",
+            "protection"
+        ]
+    },
+    {
+        "id": "rule_001",
+        "question": "Can I file an anonymous complaint?",
+        "answer": "Currently, all grievances must be linked to a verified mobile number to ensure accountability and allow us to update you on the resolution.",
+        "keywords": [
+            "anonymous",
+            "hidden",
+            "private",
+            "name"
+        ]
+    }
+]
